@@ -16,7 +16,10 @@ class JConf:
 
     def __init__(self, filename, profile='default'):
         jsondata = self._parser(filename, profile)
-        self._settings_dict = json.loads(jsondata)
+        try:
+            self._settings_dict = json.loads(jsondata)
+        except ValueError:
+            raise JConfSyntaxError
 
 
     def _parser(self, filename, profile):
@@ -42,4 +45,8 @@ class JConf:
 
 
 class SettingUnspecifiedError(LookupError):
+    pass
+
+
+class JConfSyntaxError(ValueError):
     pass

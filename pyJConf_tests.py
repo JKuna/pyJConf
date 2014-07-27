@@ -4,7 +4,8 @@ import unittest
 import os
 import exceptions
 
-from pyJConf import JConf, SettingUnspecifiedError
+from pyJConf import JConf
+from pyJConf import SettingUnspecifiedError, JConfSyntaxError
 
 class TestSettingsLoad(unittest.TestCase):
     def setUp(self):
@@ -17,6 +18,14 @@ class TestSettingsLoad(unittest.TestCase):
 
         f = open("temp_file_one.jconf", 'w+')
         f.write(file_one)
+        f.close()
+
+        file_two = """{
+        "setting": A"
+}"""
+
+        f = open("temp_file_two.jconf", 'w+')
+        f.write(file_two)
         f.close()
 
 
@@ -41,6 +50,11 @@ class TestSettingsLoad(unittest.TestCase):
         self.assertTrue(s.defsettinga == 'foo')
         self.assertTrue(s.defsettingb == 'bar')
         self.assertTrue(s.usersetting == 'A')
+
+
+    def test_JSONissue(self):
+        with self.assertRaises(JConfSyntaxError):
+            s = JConf("temp_file_two.jconf")
 
 
     def tearDown(self):
