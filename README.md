@@ -42,9 +42,11 @@ readable example below fails when the default profile is loaded.
     @test "testsetting": "True"}
 
 Instead the file must be formatted with the comma moved to the second line.
+The closing brace also must be moved to its own line.
 
     {"A": 1
-    @test, "testsetting": "True"}
+    @test, "testsetting": "True"
+    }
 
 I hope to make parsing such files more lenient by either checking for and
 removing such terminal commas or ditching JSON entirely and using another
